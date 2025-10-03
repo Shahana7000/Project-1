@@ -5,6 +5,11 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
+import lectureRoutes from "./routes/lectureRoutes.js";
+import assignmentRoutes from "./routes/assignmentRoutes.js";
+import { startLectureReminderJob } from "./utils/scheduler.js";
+
+
 
 dotenv.config();
 
@@ -27,8 +32,14 @@ app.use("/api/auth", authRoutes);
 
 app.use("/api/students", studentRoutes);
 
+app.use("/api/lectures", lectureRoutes);
+
+app.use("/api/assignments", assignmentRoutes);
+
 
 connectDB();
+startLectureReminderJob();
+
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
